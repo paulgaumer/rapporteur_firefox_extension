@@ -2,20 +2,8 @@
 
 console.log(`Hello starts`);
 
-const gmailLoaded = setInterval(function() {
-  if (document.querySelector(".y3") !== null) {
-    console.log("y3 IS UPPPPPP");
-    const td = document.querySelector(".y3");
-    console.log(td);
-    addElementToColumn(td);
-    clearInterval(gmailLoaded);
-  }
-}, 100);
-
-function addElementToColumn(el) {
-  fetch(
-    `https://www.linkedin.com/sales/gmail/profile/viewByEmail/gaumer.pa@gmail.com`
-  )
+function addElementToColumn(el, email) {
+  fetch(`https://www.linkedin.com/sales/gmail/profile/viewByEmail/${email}`)
     .then((response) => response.text())
     .then((data) => {
       console.log(`Hello from data`);
@@ -23,3 +11,14 @@ function addElementToColumn(el) {
     })
     .catch((error) => console.error(error));
 }
+
+const gmailLoaded = setInterval(function() {
+  if (document.querySelector(".y3") !== null) {
+    clearInterval(gmailLoaded);
+    console.log("y3 IS UPPPPPP");
+    const td = document.querySelector(".y3");
+    const email = document.querySelector(".gD").attributes.email.nodeValue;
+    console.log(td);
+    addElementToColumn(td, email);
+  }
+}, 100);
