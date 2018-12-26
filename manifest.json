@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Rapporteur",
+  "version": "1.0",
+  "description": "Rapportive clone for Firefox",
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://mail.google.com/*"],
+      "js": ["rapporteur.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["<all_urls>"]
+}
