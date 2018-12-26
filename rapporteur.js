@@ -13,8 +13,12 @@ function addInfoToEmail(el, email) {
       cleanColumn(".rapporteur-data");
       el.insertAdjacentHTML(
         "afterbegin",
-        `<div class="rapporteur-data">${data}</div>`
+        `<div class="rapporteur-data" style="display: none">${data}</div>`
       );
+      // Allows the element CSS to load in the background
+      setTimeout(() => {
+        document.querySelector(".rapporteur-data").style.display = "block";
+      }, 200);
     })
     .catch((error) => console.error(error));
 }
@@ -34,9 +38,18 @@ function checkWindowLoaded() {
 
 // Update the side column with data from other correspondants
 function updateInfoOnEmailHover() {
+  // When hovering on senders
+  const senders = document.querySelectorAll(".gD");
+  senders.forEach((sender) => {
+    sender.addEventListener("mouseover", () => {
+      const email = sender.attributes.email.nodeValue;
+      const td = document.querySelector(".y3");
+      addInfoToEmail(td, email);
+    });
+  });
+
   // When hovering on header's email addresses
   const receivers = document.querySelectorAll(".g2");
-  console.log(receivers);
   receivers.forEach((receiver) => {
     receiver.addEventListener("mouseover", (e) => {
       const email = e.target.attributes.email.value;
