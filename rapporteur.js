@@ -1,24 +1,69 @@
-// document.body.style.border = "5px solid red";
+// Clean the side column from existing info
+function cleanColumn(target) {
+  document.querySelectorAll(target).forEach((el) => {
+    el.remove();
+  });
+}
 
-console.log(`Hello starts`);
-
-function addElementToColumn(el, email) {
+// Fetch data using the email address and display them in the side column
+function addInfoToEmail(el, email) {
   fetch(`https://www.linkedin.com/sales/gmail/profile/viewByEmail/${email}`)
     .then((response) => response.text())
     .then((data) => {
-      console.log(`Hello from data`);
-      el.insertAdjacentHTML("afterbegin", `${data}`);
+      cleanColumn(".rapporteur-data");
+      el.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="rapporteur-data">${data}</div>`
+      );
     })
     .catch((error) => console.error(error));
 }
 
-const gmailLoaded = setInterval(function() {
-  if (document.querySelector(".y3") !== null) {
-    clearInterval(gmailLoaded);
-    console.log("y3 IS UPPPPPP");
-    const td = document.querySelector(".y3");
-    const email = document.querySelector(".gD").attributes.email.nodeValue;
-    console.log(td);
-    addElementToColumn(td, email);
+// Wait for the needed DOM elements to be loaded and available
+function checkWindowLoaded() {
+  const windowLoaded = setInterval(function() {
+    if (document.querySelector(".y3") !== null) {
+      clearInterval(windowLoaded);
+      const td = document.querySelector(".y3");
+      const emailAddress = document.querySelector(".gD").attributes.email
+        .nodeValue;
+      addInfoToEmail(td, emailAddress);
+    }
+  }, 100);
+}
+
+// Update the side column with data from other correspondants
+function updateInfoOnEmailHover() {
+  // When hovering on header's email addresses
+  const receivers = document.querySelectorAll(".g2");
+  console.log(receivers);
+  receivers.forEach((receiver) => {
+    receiver.addEventListener("mouseover", (e) => {
+      const email = e.target.attributes.email.value;
+      const td = document.querySelector(".y3");
+      addInfoToEmail(td, email);
+    });
+  });
+
+  // When hovering on email's body addresses
+  const trailingEmails = document.querySelectorAll(".gmail_quote a");
+  trailingEmails.forEach((link) => {
+    link.addEventListener("mouseover", (e) => {
+      const email = link.innerHTML;
+      const td = document.querySelector(".y3");
+      if (email.includes("@")) {
+        addInfoToEmail(td, email);
+      }
+    });
+  });
+}
+
+// Listening for page changes and execute the logic
+let currentUrl = document.location.href;
+setInterval(function() {
+  if (document.location.href != currentUrl) {
+    currentUrl = document.location.href;
+    checkWindowLoaded();
+    updateInfoOnEmailHover();
   }
-}, 100);
+}, 500);
