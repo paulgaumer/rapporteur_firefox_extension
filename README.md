@@ -1,7 +1,7 @@
 # Rapporteur - Firefox add-on
 
 Rapporteur is an adaptation for Firefox of the Chrome Linkedin Sales Navigator add-on (ex-Rapportive).
-It injects information from Linkedin about your correspondants straight into your Gmail interface.
+It injects information from Linkedin about your correspondents straight into your Gmail interface.
 
 ### How to use (local only)
 
