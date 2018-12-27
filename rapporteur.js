@@ -1,8 +1,20 @@
-// Clean the side column from existing info
+// ## TODO ##
+// - Add transition on info change
+// -------------------------------------------------------------------
+
+// UTILITIES
+let activeAddress = null;
+
 function cleanColumn(target) {
   document.querySelectorAll(target).forEach((el) => {
     el.remove();
   });
+}
+
+function addressIsDifferent(newAddress) {
+  if (newAddress !== activeAddress) {
+    return true;
+  }
 }
 
 // Fetch data using the email address and display them in the side column
@@ -10,12 +22,13 @@ function addInfoToEmail(el, email) {
   fetch(`https://www.linkedin.com/sales/gmail/profile/viewByEmail/${email}`)
     .then((response) => response.text())
     .then((data) => {
+      activeAddress = email;
       cleanColumn(".rapporteur-data");
       el.insertAdjacentHTML(
         "afterbegin",
         `<div class="rapporteur-data" style="display: none">${data}</div>`
       );
-      // Allows the element CSS to load in the background
+      // Allows the element's CSS to load in the background
       setTimeout(() => {
         document.querySelector(".rapporteur-data").style.display = "block";
       }, 200);
@@ -37,14 +50,16 @@ function checkWindowLoaded() {
 }
 
 // Update the side column with data from other correspondants
-function updateInfoOnEmailHover() {
+function updateInfoOnHover() {
   // When hovering on senders
   const senders = document.querySelectorAll(".gD");
   senders.forEach((sender) => {
     sender.addEventListener("mouseover", () => {
       const email = sender.attributes.email.nodeValue;
-      const td = document.querySelector(".y3");
-      addInfoToEmail(td, email);
+      if (addressIsDifferent(email)) {
+        const td = document.querySelector(".y3");
+        addInfoToEmail(td, email);
+      }
     });
   });
 
@@ -53,8 +68,10 @@ function updateInfoOnEmailHover() {
   receivers.forEach((receiver) => {
     receiver.addEventListener("mouseover", (e) => {
       const email = e.target.attributes.email.value;
-      const td = document.querySelector(".y3");
-      addInfoToEmail(td, email);
+      if (addressIsDifferent(email)) {
+        const td = document.querySelector(".y3");
+        addInfoToEmail(td, email);
+      }
     });
   });
 
@@ -63,9 +80,11 @@ function updateInfoOnEmailHover() {
   trailingEmails.forEach((link) => {
     link.addEventListener("mouseover", (e) => {
       const email = link.innerHTML;
-      const td = document.querySelector(".y3");
-      if (email.includes("@")) {
-        addInfoToEmail(td, email);
+      if (addressIsDifferent(email)) {
+        const td = document.querySelector(".y3");
+        if (email.includes("@")) {
+          addInfoToEmail(td, email);
+        }
       }
     });
   });
@@ -77,6 +96,6 @@ setInterval(function() {
   if (document.location.href != currentUrl) {
     currentUrl = document.location.href;
     checkWindowLoaded();
-    updateInfoOnEmailHover();
+    updateInfoOnHover();
   }
 }, 500);
