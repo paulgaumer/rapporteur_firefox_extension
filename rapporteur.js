@@ -1,5 +1,5 @@
 // ## TODO ##
-// - Add transition on info change
+//
 // -------------------------------------------------------------------
 
 // UTILITIES
@@ -26,12 +26,8 @@ function addInfoToEmail(el, email) {
       cleanColumn(".rapporteur-data");
       el.insertAdjacentHTML(
         "afterbegin",
-        `<div class="rapporteur-data" style="display: none">${data}</div>`
+        `<div class="rapporteur-data">${data}</div>`
       );
-      // Allows the element's CSS to load in the background
-      setTimeout(() => {
-        document.querySelector(".rapporteur-data").style.display = "block";
-      }, 200);
     })
     .catch((error) => console.error(error));
 }
