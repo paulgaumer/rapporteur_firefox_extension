@@ -1,10 +1,13 @@
 {
   "manifest_version": 2,
   "name": "Rapporteur",
+  "author": "Paul Gaumer",
   "version": "1.0",
-  "description": "Rapportive clone for Firefox",
+  "description": "Rapportive chrome add-on clone for Firefox. Provides correspondents' data from Linkedin in your gmail interface",
   "icons": {
-    "48": "icons/analysis.svg"
+    "48": "icons/analysis-48.png",
+    "96": "icons/analysis-96.png",
+    "128": "icons/analysis-128.png"
   },
   "content_scripts": [
     {
