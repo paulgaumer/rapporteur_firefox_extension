@@ -86,8 +86,9 @@ function updateInfoOnHover() {
   });
 }
 
-// Listening for page changes and execute the logic
+// Listen for page changes and execute the logic
 let currentUrl = document.location.href;
+checkWindowLoaded();
 setInterval(function() {
   if (document.location.href != currentUrl) {
     currentUrl = document.location.href;
