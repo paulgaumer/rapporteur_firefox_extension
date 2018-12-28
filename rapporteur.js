@@ -18,16 +18,18 @@ function addressIsDifferent(newAddress) {
 }
 
 // Fetch data using the email address and display them in the side column
-function addInfoToEmail(el, email) {
+function addInfoToEmail(email) {
   fetch(`https://www.linkedin.com/sales/gmail/profile/viewByEmail/${email}`)
     .then((response) => response.text())
     .then((data) => {
       activeAddress = email;
       cleanColumn(".rapporteur-data");
-      el.insertAdjacentHTML(
-        "afterbegin",
-        `<div class="rapporteur-data">${data}</div>`
-      );
+      document
+        .querySelector(".y3")
+        .insertAdjacentHTML(
+          "afterbegin",
+          `<div class="rapporteur-data">${data}</div>`
+        );
     })
     .catch((error) => console.error(error));
 }
@@ -37,10 +39,9 @@ function checkWindowLoaded() {
   const windowLoaded = setInterval(function() {
     if (document.querySelector(".y3") !== null) {
       clearInterval(windowLoaded);
-      const td = document.querySelector(".y3");
       const emailAddress = document.querySelector(".gD").attributes.email
         .nodeValue;
-      addInfoToEmail(td, emailAddress);
+      addInfoToEmail(emailAddress);
     }
   }, 100);
 }
@@ -53,8 +54,7 @@ function updateInfoOnHover() {
     sender.addEventListener("mouseover", () => {
       const email = sender.attributes.email.nodeValue;
       if (addressIsDifferent(email)) {
-        const td = document.querySelector(".y3");
-        addInfoToEmail(td, email);
+        addInfoToEmail(email);
       }
     });
   });
@@ -65,8 +65,7 @@ function updateInfoOnHover() {
     receiver.addEventListener("mouseover", (e) => {
       const email = e.target.attributes.email.value;
       if (addressIsDifferent(email)) {
-        const td = document.querySelector(".y3");
-        addInfoToEmail(td, email);
+        addInfoToEmail(email);
       }
     });
   });
@@ -77,9 +76,8 @@ function updateInfoOnHover() {
     link.addEventListener("mouseover", (e) => {
       const email = link.innerHTML;
       if (addressIsDifferent(email)) {
-        const td = document.querySelector(".y3");
         if (email.includes("@")) {
-          addInfoToEmail(td, email);
+          addInfoToEmail(email);
         }
       }
     });
