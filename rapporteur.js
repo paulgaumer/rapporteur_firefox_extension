@@ -1,7 +1,3 @@
-// ## TODO ##
-//
-// -------------------------------------------------------------------
-
 // UTILITIES
 let activeAddress = null;
 
@@ -12,9 +8,7 @@ function cleanColumn(target) {
 }
 
 function addressIsDifferent(newAddress) {
-  if (newAddress !== activeAddress) {
-    return true;
-  }
+  return newAddress !== activeAddress;
 }
 
 // Fetch data using the email address and display them in the side column
