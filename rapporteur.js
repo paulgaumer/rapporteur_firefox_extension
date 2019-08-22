@@ -11,6 +11,20 @@ function addressIsDifferent(newAddress) {
   return newAddress !== activeAddress;
 }
 
+// Check if the user is already logged to his Linkedin account
+function checkIfUserSignedIn() {
+  const logInButton = document.querySelector("#lfgLogin");
+  if (logInButton) {
+    logInButton.insertAdjacentHTML(
+      "afterend",
+      `<a href="https://www.linkedin.com/uas/login" target="_blank" style="text-decoration: none">
+        <div style="color: white; background-color: #0077b5; padding: 3px 16px; margin: 20px 0; cursor: pointer; font-size: 15px; border-radius: 2px; display: inline-block;" class="sign-in-button">Sign In</div>
+      </a>
+      <span style="font-size:11px;">then refresh the page</span>`
+    );
+    logInButton.remove()
+  }
+}
 // Fetch data using the email address and display them in the side column
 function addInfoToEmail(email) {
   fetch(`https://www.linkedin.com/sales/gmail/profile/viewByEmail/${email}`)
@@ -24,6 +38,7 @@ function addInfoToEmail(email) {
           "afterbegin",
           `<div class="rapporteur-data">${data}</div>`
         );
+      checkIfUserSignedIn();
     })
     .catch((error) => console.error(error));
 }
